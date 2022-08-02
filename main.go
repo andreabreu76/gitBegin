@@ -9,7 +9,8 @@ import (
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte("Hello World!"))
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"message": "Hello World"}`))
 }
 
 func main() {
@@ -18,6 +19,9 @@ func main() {
 	r.HandleFunc("/", HomeHandler)
 
 	log.Printf("Server started at port 8080")
-	http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":8080", r)
+	if err != nil {
+		return
+	}
 
 }
